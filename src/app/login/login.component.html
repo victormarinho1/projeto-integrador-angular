@@ -1,0 +1,67 @@
+<div
+[class]="{'bg-white' : isMobile, 'bg-gray-100': !isMobile}"
+ class="min-h-screen flex items-center justify-center bg-gray-100">
+
+  <div
+  [class]="{'shadow-lg': !isMobile}"
+  class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 ">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
+    
+    <form [formGroup]='loginForm' (ngSubmit)="onSubmit()" class="space-y-5">
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          required
+          class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="seuemail@exemplo.com"
+          formControlName="email"
+        />
+      </div>
+
+      <!-- Senha -->
+      <div>
+        <label for="senha" class="block text-sm font-medium text-gray-700">Senha</label>
+        <input 
+          type="password" 
+          id="senha" 
+          name="senha" 
+          required
+          class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="********"
+          formControlName="senha"
+        />
+      </div>
+      <!-- Lembrar -->
+      <div class="flex items-center justify-end">
+       
+        <a href="#" class="text-sm text-blue-600 hover:underline">Esqueceu a senha?</a>
+      </div>
+
+      <!-- Botão -->
+    <button 
+      [disabled]="!loginForm.valid"
+      [class]="{'bg-gray-400' : !loginForm.valid, 'bg-blue-600' : loginForm.valid, 'hover:bg-blue-700':loginForm.valid, 'cursor-pointer' : loginForm.valid}" 
+      type="submit" 
+      class="w-full text-white py-2 rounded-xl font-semiboldtransition ">
+      Entrar
+    </button>
+
+    <a routerLink="/cadastro-denuncia" >
+     <button 
+
+      class="w-full text-white bg-red-400 hover:bg-red-700 py-2 rounded-xl font-semibold transition cursor-pointer">
+      Fazer denuncia anônima
+    </button>
+    </a>
+    </form>
+
+    <p class="text-sm text-center text-gray-600 mt-6">
+      Não tem conta? 
+      <a routerLink="/register" href="#" class="text-blue-600 font-medium hover:underline">Cadastre-se</a>
+    </p>
+  </div>
+  </div>
