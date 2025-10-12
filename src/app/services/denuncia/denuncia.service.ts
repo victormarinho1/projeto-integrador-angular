@@ -2,13 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environments';
 import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DenunciaService {
   private http = inject(HttpClient);
-  private cookieService = inject(CookieService);
   private apiUrl = environment.apiUrl;
 
 
@@ -20,10 +20,8 @@ export class DenunciaService {
     });
   }
 
-  findAll() {
+ findAll(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/denuncias`);
+}
 
-    this.http.get(`${this.apiUrl}/denuncias`).subscribe(r => {
-      console.log(r);
-    });
-  }
 }
