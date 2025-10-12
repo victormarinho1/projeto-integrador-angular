@@ -1,7 +1,7 @@
+import { AuthService } from './../services/auth/auth.service';
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { UsuariosService } from '../services/usuarios.service';
+import { Router, RouterLink } from '@angular/router';
 
 
 @Component({
@@ -12,25 +12,25 @@ import { UsuariosService } from '../services/usuarios.service';
 })
 export class LoginComponent implements OnInit{
   isMobile:any = false;
-  router: any;
   ngOnInit(): void {
     this.isMobile = window.innerWidth < 380;
   }
-    private userService = inject(UsuariosService);
-   
- 
+    private authService = inject(AuthService);
+    private router = inject(Router);
+
+
     loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      senha: new FormControl('', [Validators.required]) 
+      email: new FormControl('admin@example.com', [Validators.required, Validators.email]),
+      senha: new FormControl('admin', [Validators.required])
     })
 
-   
+
     onSubmit(){
       const email = this.loginForm.get('email')?.value ?? '';
       const senha = this.loginForm.get('senha')?.value ?? '';
-      this.userService.login(email, senha).subscribe({
+      this.authService.login(email, senha).subscribe({
         next: (r) =>{
-          this.router.navigate(['/denuncias'])
+          this.router.navigate(['/home'])
         }
       })
      }

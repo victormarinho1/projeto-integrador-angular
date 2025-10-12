@@ -7,18 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsuariosService {
-  
-  private apiUrl = environment.apiUrl;
-  private http = inject(HttpClient);
 
-  findAll(){
-    this.http.get<any>('localhost:3000/usuarios/').subscribe(user =>{
-      console.log(user)
-    })
-  }
 
-  login(email:string, senha:string):Observable<any>{
-    return this.http.get<any[]>(`${this.apiUrl}/usuarios?email=${email}&senha=${senha}`)
-  
-  }
 }

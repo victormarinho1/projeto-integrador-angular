@@ -1,64 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
+import { AvatarModule } from 'primeng/avatar';
 import { Menubar } from 'primeng/menubar';
 
 @Component({
   selector: 'app-header',
-  imports: [Menubar],
+  imports: [Menubar, AvatarModule],
   standalone:true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
  items: MenuItem[] | undefined;
 
     ngOnInit() {
         this.items = [
             {
-                label: 'Home',
+                label: 'Inicio',
                 icon: 'pi pi-home'
             },
             {
-                label: 'Features',
-                icon: 'pi pi-star'
-            },
-            {
-                label: 'Projects',
-                icon: 'pi pi-search',
+                label: 'Denuncias',
+                icon: 'pi pi-exclamation-circle',
                 items: [
                     {
-                        label: 'Components',
-                        icon: 'pi pi-bolt'
+                        label: 'Criar',
+                        icon: 'pi pi-plus'
                     },
                     {
-                        label: 'Blocks',
-                        icon: 'pi pi-server'
-                    },
-                    {
-                        label: 'UI Kit',
-                        icon: 'pi pi-pencil'
-                    },
-                    {
-                        label: 'Templates',
-                        icon: 'pi pi-palette',
-                        items: [
-                            {
-                                label: 'Apollo',
-                                icon: 'pi pi-palette'
-                            },
-                            {
-                                label: 'Ultima',
-                                icon: 'pi pi-palette'
-                            }
-                        ]
+                        label: 'Lista de denuncias',
+                        icon: 'pi pi-list-check'
                     }
                 ]
-            },
-            {
-                label: 'Contact',
-                icon: 'pi pi-envelope'
             }
+
         ]
     }
 }
