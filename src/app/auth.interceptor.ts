@@ -5,7 +5,6 @@ import { CookieService } from 'ngx-cookie-service';
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   const cookieService = inject(CookieService);
   const token = cookieService.get('authToken');
-  console.log('Token enviado:', token);
 
   if (token) {
     req = req.clone({

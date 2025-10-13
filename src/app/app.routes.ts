@@ -4,6 +4,7 @@ import { RegisterComponent } from './register/register.component';
 import { DenunciasComponent } from './denuncias/denuncias.component';
 import { HomeComponent } from './components/home/home.component';
 import { DenunciasListComponent } from './denuncias/denuncias-list/denuncias-list.component';
+import { TesteComponent } from './components/teste/teste.component';
 
 export const routes: Routes = [
     {path:"", component:LoginComponent},
@@ -11,4 +12,5 @@ export const routes: Routes = [
     {path:"cadastro-denuncia", component:DenunciasComponent},
     {path:"lista-denuncias", component:DenunciasListComponent},
     {path:"home", component:HomeComponent},
+    {path:"teste", component:TesteComponent}
 ];
