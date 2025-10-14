@@ -1,15 +1,24 @@
 import { DenunciasListComponent } from './../../denuncias/denuncias-list/denuncias-list.component';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
+import { SharedService } from '../../services/shared/shared.service';
+import { TokenModel } from '../../models/token';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone:true,
-  imports: [HeaderComponent,DenunciasListComponent],
+  imports: [HeaderComponent,DenunciasListComponent, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent{
-
-
+export class HomeComponent implements OnInit{
+  private sharedService = inject(SharedService)
+  mostrar = true
+  userToken:TokenModel| null = null;
+  
+  ngOnInit(): void {
+   this.userToken = this.sharedService.decodeToken();
+  }
+  
 }

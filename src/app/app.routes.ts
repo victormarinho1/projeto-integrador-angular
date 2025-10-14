@@ -12,5 +12,6 @@ export const routes: Routes = [
     {path:"cadastro-denuncia", component:DenunciasComponent},
     {path:"lista-denuncias", component:DenunciasListComponent},
     {path:"home", component:HomeComponent},
+    {path:"admin", component:HomeComponent},
     {path:"teste", component:TesteComponent}
 ];
