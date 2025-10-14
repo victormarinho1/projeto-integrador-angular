@@ -3,17 +3,21 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ToastModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers:[MessageService]
 })
 export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  constructor(private messageService: MessageService) {}
 
   showPassword = false;
 
@@ -33,7 +37,10 @@ export class LoginComponent {
         console.log('Usuário logado:', user);
         this.router.navigate(['/home']);
       },
-      error: err => console.error(err)
+      error: err => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'E-mail ou senha incorretos', life: 3000 });
+
+      } 
     });
   }
 
