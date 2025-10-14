@@ -4,27 +4,28 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors} from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import { AuthInterceptor } from './auth.interceptor';
 import { CookieService } from 'ngx-cookie-service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 export const appConfig: ApplicationConfig = {
   providers: [
+   provideAnimationsAsync(),
+   providePrimeNG({
+       theme: {
+           preset: Aura
+       }
+   }),
    provideHttpClient(
       withInterceptors([AuthInterceptor])
     ),
     CookieService,
-        providePrimeNG({
-            theme: {
-                preset: Aura
-            }
-        }),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
     provideRouter(routes), provideClientHydration(withEventReplay())
 
   ]
 };
-
 

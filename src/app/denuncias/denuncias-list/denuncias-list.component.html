@@ -1,18 +1,16 @@
 <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 justify-center">
     📋 Lista de Denúncias
 </h2>
-<p-table [value]="denuncias" [tableStyle]="{ 'min-width': '50rem' }"
->
+<p-table [value]="denuncias" [tableStyle]="{ 'min-width': '50rem' }">
 
-    <ng-template #header>
+  <ng-template #header>
         <tr>
             <th>Protocolo</th>
             <th>Imagem</th>
             <th>Cidade</th>
-            <th pSortableColumn="status">
+            <th >
                 <div class="flex items-center gap-2">
                     Situação
-                    <p-sortIcon field="quantity" />
                 </div>
             </th>
         </tr>
@@ -25,7 +23,7 @@
             <th></th>
             <th></th>
             <th>
-                <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                <p-columnFilter field="status" matchMode="equals" [showMenu]="true">
                     <ng-template #filter let-value let-filter="filterCallback">
                         <p-select [options]="statuses" optionLabel="name" optionValue="value" (onChange)="filter($event.value)" placeholder="Select One" [showClear]="true" style="min-width: 12rem">
                             <ng-template let-option #item>

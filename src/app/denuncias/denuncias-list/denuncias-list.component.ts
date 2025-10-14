@@ -28,12 +28,7 @@ export class DenunciasListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.denunciaService.findAll().subscribe(data => {
-      this.denuncias = data;
-      this.cdr.detectChanges();
-    });
-
-    this.statuses = [
+       this.statuses = [
         { name: 'Nova', value:'NOVA'},
         { name: 'Em andamento', value:'EM_ANDAMENTO'},
         { name: 'Concluída', value: 'CONCLUIDA'}
@@ -41,6 +36,13 @@ export class DenunciasListComponent implements OnInit {
     
   }
 
+
+  ngAfterViewInit() {
+  this.denunciaService.findAll().subscribe(data => {
+    this.denuncias = data;
+    this.cdr.detectChanges();
+  });
+}
   getSeverity(status: string) {
         switch (status) {
             case 'NOVA':
