@@ -1,18 +1,19 @@
 <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 justify-center">
     📋 Lista de Denúncias
 </h2>
-<p-table [value]="denuncias" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table
+selectionMode="single"
+[paginator]="true"
+[rows]="10"
+[value]="denuncias" [tableStyle]="{ 'min-width': '50rem' }">
 
-  <ng-template #header>
+    <ng-template #header>
         <tr>
             <th>Protocolo</th>
             <th>Imagem</th>
             <th>Cidade</th>
-            <th >
-                <div class="flex items-center gap-2">
-                    Situação
-                </div>
-            </th>
+            <th>Situação</th>
+            <th>Ações</th>
         </tr>
         <tr>
             <th>
@@ -25,16 +26,18 @@
             <th>
                 <p-columnFilter field="status" matchMode="equals" [showMenu]="true">
                     <ng-template #filter let-value let-filter="filterCallback">
-                        <p-select [options]="statuses" optionLabel="name" optionValue="value" (onChange)="filter($event.value)" placeholder="Select One" [showClear]="true" style="min-width: 12rem">
+                        <p-select [options]="statuses" optionLabel="name" optionValue="value"
+                            (onChange)="filter($event.value)" placeholder="Select One" [showClear]="true"
+                            style="min-width: 12rem">
                             <ng-template let-option #item>
-                                <p-tag [severity]="getSeverity(option.value)" [value]="option.name" />                               
+                                <p-tag [severity]="getSeverity(option.value)" [value]="option.name" />
                             </ng-template>
                         </p-select>
 
                     </ng-template>
-                    </p-columnFilter>
+                </p-columnFilter>
             </th>
-
+            <th></th>
         </tr>
     </ng-template>
     <ng-template #body let-denuncia>
@@ -47,6 +50,9 @@
             <td>{{ denuncia.cidade }}</td>
             <td>
                 <p-tag [severity]="getSeverity(denuncia.status)" [value]="denuncia.status" />
+            </td>
+            <td>
+                <p-button label="Atender Denuncia" />
             </td>
         </tr>
 
