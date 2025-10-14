@@ -1,29 +1,39 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MenuItem } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { Menu } from 'primeng/menu';
 import { SelectModule } from 'primeng/select';
+import { AvatarModule } from 'primeng/avatar';
+
 interface City {
     name: string;
     code: string;
 }
 @Component({
   selector: 'app-teste',
-  imports: [FormsModule, SelectModule, CommonModule],
+  imports: [Menu,ButtonModule, AvatarModule],
   templateUrl: './teste.component.html',
   styleUrl: './teste.component.css'
 })
 export class TesteComponent {
-cities: City[] | undefined;
-
-    selectedCity: City | undefined;
+items: MenuItem[] | undefined;
 
     ngOnInit() {
-        this.cities = [
-            { name: 'New York', code: 'NY' },
-            { name: 'Rome', code: 'RM' },
-            { name: 'London', code: 'LDN' },
-            { name: 'Istanbul', code: 'IST' },
-            { name: 'Paris', code: 'PRS' }
+        this.items = [
+            {
+                items: [
+                    {
+                        label: 'Logout',
+                        icon: 'pi pi-refresh'
+                    },
+                    {
+                        label: 'Perfil',
+                        icon: 'pi pi-upload'
+                    }
+                ]
+            }
         ];
     }
 }
