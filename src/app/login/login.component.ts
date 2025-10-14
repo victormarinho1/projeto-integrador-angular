@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
@@ -9,7 +9,7 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ToastModule],
+  imports: [ReactiveFormsModule, CommonModule, ToastModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   providers:[MessageService]

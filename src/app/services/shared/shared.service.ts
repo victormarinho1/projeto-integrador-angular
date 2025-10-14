@@ -9,14 +9,10 @@ import { TokenModel } from '../../models/token';
 export class SharedService {
   private cookieService = inject(CookieService);
 
-  decodeToken(): TokenModel | null {
-    try {
+  decodeToken(): TokenModel | null {    
       const token = this.cookieService.get('authToken'); 
       if (!token) return null;
       return jwtDecode<TokenModel>(token);
-    } catch (error) {
-      console.error('Token inválido', error);
-      return null;
-    }
+    
   }
 }

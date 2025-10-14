@@ -4,11 +4,12 @@ import { HeaderComponent } from '../header/header.component';
 import { SharedService } from '../../services/shared/shared.service';
 import { TokenModel } from '../../models/token';
 import { CommonModule } from '@angular/common';
+import { UsuariosListComponent } from '../../usuarios/usuarios-list/usuarios-list.component';
 
 @Component({
   selector: 'app-home',
   standalone:true,
-  imports: [HeaderComponent,DenunciasListComponent, CommonModule],
+  imports: [HeaderComponent,DenunciasListComponent, CommonModule, UsuariosListComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
