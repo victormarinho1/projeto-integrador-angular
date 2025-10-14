@@ -1,5 +1,5 @@
 import  Aura  from '@primeng/themes/aura';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection, importProvidersFrom  } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -8,6 +8,7 @@ import { provideHttpClient, withFetch, withInterceptors} from '@angular/common/h
 import { providePrimeNG } from 'primeng/config';
 import { AuthInterceptor } from './auth.interceptor';
 import { CookieService } from 'ngx-cookie-service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
            preset: Aura
        }
    }),
+   importProvidersFrom(FontAwesomeModule),
    provideHttpClient(
       withInterceptors([AuthInterceptor])
     ),
