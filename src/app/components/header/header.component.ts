@@ -6,10 +6,10 @@ import { Menubar } from 'primeng/menubar';
 import { Button } from "primeng/button";
 import { TokenModel } from '../../models/token';
 import { SharedService } from '../../services/shared/shared.service';
-
+import { CommonModule } from '@angular/common';
 @Component({
     selector: 'app-header',
-    imports: [Menubar, AvatarModule, Menu],
+    imports: [Menubar, AvatarModule, Menu, Button, CommonModule],
     standalone: true,
     templateUrl: './header.component.html',
     styleUrl: './header.component.css'
@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
     items: MenuItem[] | undefined;
     itemsAvatar: MenuItem[] | undefined;
     userToken: TokenModel | null = null;
+    darkMode:boolean = false;
 
     ngOnInit() {
         this.userToken = this.sharedService.decodeToken();
@@ -44,6 +45,10 @@ export class HeaderComponent implements OnInit {
                         { label: 'Adicionar Usuário', icon: 'pi pi-user-plus' },
                         { label: 'Listar Usuários', icon: 'pi pi-users' }
                     ]
+                },
+                {
+                    label: 'Dashboard',
+                    icon: 'pi pi-chart-line'
                 }
             ];
         } else if (this.userToken?.role === 'CONSELHEIRO') {
@@ -73,4 +78,10 @@ export class HeaderComponent implements OnInit {
             }
         ];
     }
+
+    toggleDarkMode() {
+    const element = document.querySelector('html');
+    element?.classList.toggle('my-app-dark');
+    this.darkMode = !this.darkMode;
+}
 }
