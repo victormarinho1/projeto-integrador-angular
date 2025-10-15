@@ -13,4 +13,8 @@ export class UsuarioService {
   findAll(): Observable<any[]>{
     return this.http.get<any[]>(`${this.apiUrl}/usuarios`);
   }
+
+  changeStatus(id:number): Observable<any>{
+    return this.http.patch(`${this.apiUrl}/usuarios/trocar-status/${id}`,{})
+  }
 }

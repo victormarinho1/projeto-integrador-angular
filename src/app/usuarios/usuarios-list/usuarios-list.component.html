@@ -1,10 +1,12 @@
+<h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 justify-center">
+    📋 Lista de Usuários
+</h2>
 <p-table
 [value]="usuarios"
 [paginator]="true"
 [rows]="5"
 [tableStyle]="{ 'min-width': '50rem' }"
-[rowsPerPageOptions]="[5, 10, 20]"
->
+[rowsPerPageOptions]="[5, 10, 20]">
 <ng-template #header>
         <tr>
             <th style="width:25%">Id</th>
@@ -26,8 +28,9 @@
             <td>{{ usuario.email }}</td>
             <td>{{ usuario.funcao }}</td>
             <td>
-                <p-toggleswitch [(ngModel)]="usuario.enabled" />
+                <p-toggleswitch [(ngModel)]="usuario.enabled" (click)="changeStatus(usuario.id)" />
             </td>
+            
         </tr>
     </ng-template>
 
