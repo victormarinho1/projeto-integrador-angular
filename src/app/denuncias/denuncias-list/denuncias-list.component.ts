@@ -8,13 +8,13 @@ import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
 
 interface Status {
-    name: string;
-    value: string;
+  name: string;
+  value: string;
 }
 @Component({
   selector: 'app-denuncias-list',
   standalone: true,
-  imports: [TableModule,TagModule, CommonModule,ButtonModule,SelectModule,TagModule,FormsModule],
+  imports: [TableModule, TagModule, CommonModule, ButtonModule, SelectModule, TagModule, FormsModule],
   templateUrl: './denuncias-list.component.html',
   styleUrl: './denuncias-list.component.css'
 })
@@ -24,36 +24,42 @@ export class DenunciasListComponent implements OnInit {
   private denunciaService = inject(DenunciaService);
   private cdr = inject(ChangeDetectorRef);
   statuses: Status[] | undefined;
-  selectedStatus:String = "teste";
+  selectedStatus: String = "teste";
 
 
   ngOnInit() {
-       this.statuses = [
-        { name: 'Nova', value:'NOVA'},
-        { name: 'Em andamento', value:'EM_ANDAMENTO'},
-        { name: 'Concluída', value: 'CONCLUIDA'}
+    this.statuses = [
+      { name: 'Nova', value: 'NOVA' },
+      { name: 'Em andamento', value: 'EM_ANDAMENTO' },
+      { name: 'Concluída', value: 'CONCLUIDA' }
     ];
-    
+
   }
 
 
   ngAfterViewInit() {
-  this.denunciaService.findAll().subscribe(data => {
-    this.denuncias = data;
-    this.cdr.detectChanges();
-  });
-}
+    this.denunciaService.findAll().subscribe(data => {
+      this.denuncias = data;
+      console.log(data)
+      this.cdr.detectChanges();
+    });
+  }
   getSeverity(status: string) {
-        switch (status) {
-            case 'NOVA':
-                return 'success';
-            case 'EM_ANDAMENTO':
-                return 'warn';
-            case 'CONCLUIDA':
-                return 'secondary';
-            default: return null;
-        }
-      }
+    switch (status) {
+      case 'NOVA':
+        return 'success';
+      case 'EM_ANDAMENTO':
+        return 'warn';
+      case 'CONCLUIDA':
+        return 'secondary';
+      default: return null;
+    }
+  }
+
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = 'assets/images/image.png'; 
+  }
 
 
 }

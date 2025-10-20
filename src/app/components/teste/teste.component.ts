@@ -34,4 +34,8 @@ export class TesteComponent implements OnInit {
 
     // alert('teste')
   }
+
+   show() {
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
+    }
 }

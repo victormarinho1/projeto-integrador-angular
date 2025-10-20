@@ -13,12 +13,12 @@ export class RegisterComponent {
   private authService = inject(AuthService);
   
   registerForm = new FormGroup({
-        nome: new FormControl('', [Validators.required]),
-        sobrenome: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required, Validators.email]),
-        senha: new FormControl('', [Validators.required]),
-        confirmarSenha: new FormControl('',[Validators.required]) 
-      })
+    nome: new FormControl('', [Validators.required]),
+    sobrenome: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    senha: new FormControl('', [Validators.required]),
+    confirmarSenha: new FormControl('',[Validators.required]) 
+  });
 
      
   onSubmit(){

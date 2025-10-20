@@ -17,4 +17,8 @@ export class UsuarioService {
   changeStatus(id:number): Observable<any>{
     return this.http.patch(`${this.apiUrl}/usuarios/trocar-status/${id}`,{})
   }
+
+  create(usuario:any){
+    return this.http.post<any>(`${this.apiUrl}/usuarios`,usuario)
+  }
 }
