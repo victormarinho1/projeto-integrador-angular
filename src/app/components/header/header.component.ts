@@ -30,7 +30,8 @@ export class HeaderComponent implements OnInit {
             this.items = [
                 {
                     label: 'Inicio',
-                    icon: 'pi pi-home'
+                    icon: 'pi pi-home',
+                    routerLink:'/home'
                 },
                 {
                     label: 'Denuncias',
@@ -50,14 +51,16 @@ export class HeaderComponent implements OnInit {
                 },
                 {
                     label: 'Dashboard',
-                    icon: 'pi pi-chart-line'
+                    icon: 'pi pi-chart-line',
+                    routerLink:'/dashboard'
                 }
             ];
         } else if (this.userToken?.role === 'CONSELHEIRO') {
             this.items = [
                 {
                     label: 'Inicio',
-                    icon: 'pi pi-home'
+                    icon: 'pi pi-home',
+                     routerLink:'/home'
                 },
                 {
                     label: 'Denuncias',
