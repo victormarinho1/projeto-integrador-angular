@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../environments/environments';
 import { Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Observable, tap } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
   private cookieService = inject(CookieService);
-
+    private router = inject(Router)
   private apiUrl = environment.apiUrl;
 
   register(user: any) {
@@ -38,5 +39,6 @@ export class AuthService {
 
   logout() {
     this.cookieService.delete('authToken', '/');
+    this.router.navigate(['/']);
   }
 }

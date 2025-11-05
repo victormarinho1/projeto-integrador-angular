@@ -7,6 +7,7 @@ import { Button } from "primeng/button";
 import { TokenModel } from '../../models/token';
 import { SharedService } from '../../services/shared/shared.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
 @Component({
     selector: 'app-header',
     imports: [Menubar, AvatarModule, Menu, Button, CommonModule],
@@ -16,6 +17,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
     private sharedService = inject(SharedService)
+    private authService = inject(AuthService);
 
     items: MenuItem[] | undefined;
     itemsAvatar: MenuItem[] | undefined;
@@ -72,7 +74,10 @@ export class HeaderComponent implements OnInit {
                 items: [
                     {
                         label: 'Logout',
-                        icon: 'pi pi-power-off'
+                        icon: 'pi pi-power-off',                        
+                        command: () => {
+                           this.authService.logout();
+                        },
                     }
                 ]
             }
