@@ -35,8 +35,8 @@ export class DenunciasListComponent implements OnInit {
     ];
 
   }
-
-
+  
+  
   ngAfterViewInit() {
     this.denunciaService.findAll().subscribe(data => {
       this.denuncias = data;
@@ -61,5 +61,10 @@ export class DenunciasListComponent implements OnInit {
     target.src = 'assets/images/image.png'; 
   }
 
+  atenderDenuncia(id:number) {
+   this.denunciaService.atenderDenuncia(id).subscribe(d =>{
+    console.log(d)
+   })
+  }
 
 }

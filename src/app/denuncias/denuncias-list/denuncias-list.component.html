@@ -49,7 +49,17 @@
                 <p-tag [severity]="getSeverity(denuncia.status)" [value]="denuncia.status" />
             </td>
             <td>
-                <p-button label="Atender Denuncia" />
+                @if(denuncia.status == "CONCLUIDA"){
+                <p-button label="Atender Denuncia" disabled (click)="atenderDenuncia(denuncia.id)"/>
+
+                }
+                @if(denuncia.status == "NOVA"){
+                <p-button label="Atender Denuncia" (click)="atenderDenuncia(denuncia.id)"/>
+
+                }
+                @if(denuncia.status == "EM_ANDAMENTO"){
+                <p-button label="FINALIZAR" (click)="atenderDenuncia(denuncia.id)"/>
+                }
             </td>
         </tr>
 

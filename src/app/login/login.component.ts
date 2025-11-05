@@ -28,21 +28,41 @@ export class LoginComponent {
     senha: new FormControl('admin', [Validators.required])
   });
 
-  onSubmit() {
-    const email = this.loginForm.get('email')?.value ?? '';
-    const senha = this.loginForm.get('senha')?.value ?? '';
+ onSubmit() {
+  const email = this.loginForm.get('email')?.value ?? '';
+  const senha = this.loginForm.get('senha')?.value ?? '';
 
-    this.authService.login(email, senha).subscribe({
-      next: user => {
-        console.log('Usuário logado:', user);
-        this.router.navigate(['/home']);
-      },
-      error: err => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'E-mail ou senha incorretos', life: 3000 });
+  this.authService.login(email, senha).subscribe({
+    next: user => {
+      console.log('Usuário logado:', user);
+      this.router.navigate(['/home']);
+    },
+    error: err => {
+      console.error('Erro no login:', err);
 
-      } 
-    });
-  }
+      let errorMessage = 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
+
+      if (err.status === 0) {
+        // Servidor não respondeu (problema de rede, CORS ou servidor offline)
+        errorMessage = 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.';
+      } else if (err.status === 401) {
+        // Credenciais inválidas
+        errorMessage = 'Email ou senha incorretos.';
+      } else if (err.error?.message) {
+        // Mensagem personalizada do backend
+        errorMessage = err.error.message;
+      }
+
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro de login',
+        detail: errorMessage,
+        life: 3000
+      });
+    }
+  });
+}
+
 
   togglePassword() {
   this.showPassword = !this.showPassword;
