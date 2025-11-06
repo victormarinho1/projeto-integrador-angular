@@ -12,7 +12,7 @@ interface StatusData {
 }
 @Component({
   selector: 'app-dashboard',
-  imports: [HeaderComponent, ChartModule],
+  imports: [ChartModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

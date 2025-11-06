@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
                     icon: 'pi pi-exclamation-circle',
                     items: [
                         { label: 'Criar', icon: 'pi pi-plus' },
-                        { label: 'Lista de denúncias', icon: 'pi pi-list-check' }
+                        { label: 'Lista de denúncias', icon: 'pi pi-list-check' ,routerLink:'/lista-denuncias'}
                     ]
                 },
                 {
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
                     icon: 'pi pi-users',
                     items: [
                         { label: 'Adicionar Usuário', icon: 'pi pi-user-plus' },
-                        { label: 'Listar Usuários', icon: 'pi pi-users' }
+                        { label: 'Listar Usuários', icon: 'pi pi-users',routerLink:'/lista-usuarios' }
                     ]
                 },
                 {
