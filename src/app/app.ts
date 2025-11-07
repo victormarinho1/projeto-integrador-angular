@@ -17,7 +17,7 @@ export class App {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-       const noHeaderRoutes = ['/', '/register','/cadastro-denuncia','/educacao'];
+       const noHeaderRoutes = ['/', '/register','/cadastro-denuncia','/educacao','/consultar-protocolo'];
         
         this.showHeader = !noHeaderRoutes.includes(event.urlAfterRedirects);
       });
