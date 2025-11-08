@@ -48,19 +48,29 @@
             <td>
                 <p-tag [severity]="getSeverity(denuncia.status)" [value]="denuncia.status" />
             </td>
-            <td>
-                @if(denuncia.status == "CONCLUIDA"){
-                <p-button label="Atender Denuncia" disabled (click)="atenderDenuncia(denuncia.id)"/>
-
-                }
-                @if(denuncia.status == "NOVA"){
-                <p-button label="Atender Denuncia" (click)="atenderDenuncia(denuncia.id)"/>
-
-                }
-                @if(denuncia.status == "EM_ANDAMENTO"){
-                <p-button label="FINALIZAR" (click)="atenderDenuncia(denuncia.id)"/>
-                }
-            </td>
+           <td>
+  @if(denuncia.status === 'NOVA') {
+  <p-button
+    label="Atender Denuncia"
+    icon="pi pi-pencil"
+    [routerLink]="['/atender-denuncia', denuncia.protocolo]"
+  />
+  } @if(denuncia.status === 'EM_ANDAMENTO') {
+  <p-button
+    label="Continuar Atendimento"
+    icon="pi pi-search"
+    styleClass="p-button-outlined"
+    [routerLink]="['/atender-denuncia', denuncia.protocolo]"
+  />
+  } @if(denuncia.status === 'CONCLUIDA') {
+  <p-button
+    label="Ver Detalhes"
+    icon="pi pi-eye"
+    styleClass="p-button-secondary p-button-outlined"
+    [routerLink]="['/atender-denuncia', denuncia.protocolo]"
+  />
+  }
+</td>
         </tr>
 
     </ng-template>

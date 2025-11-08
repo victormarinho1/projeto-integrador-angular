@@ -10,6 +10,7 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { UsuariosListComponent } from './usuarios/usuarios-list/usuarios-list.component';
 import { EducacaoComponent } from './educacao/educacao/educacao.component';
 import { ConsultaProtocoloComponent } from './consultaprotocolo/consultaprotocolo.component';
+import { AtenderDenunciaComponent } from './atender-denuncia/atender-denuncia.component';
 
 export const routes: Routes = [
     {path:"", component:LoginComponent},
@@ -23,6 +24,10 @@ export const routes: Routes = [
     {path:"usuario-form", component:UsuariosFormComponent},
     {path:"dashboard", component:DashboardComponent},
     { path: 'educacao', component: EducacaoComponent },
-    { path: 'consultar-protocolo', component: ConsultaProtocoloComponent }
+    { path: 'consultar-protocolo', component: ConsultaProtocoloComponent },
+{
+    path: 'atender-denuncia/:id',
+    component: AtenderDenunciaComponent,
+  },
 
 ];

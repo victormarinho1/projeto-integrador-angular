@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 interface Status {
   name: string;
@@ -14,7 +15,7 @@ interface Status {
 @Component({
   selector: 'app-denuncias-list',
   standalone: true,
-  imports: [TableModule, TagModule, CommonModule, ButtonModule, SelectModule, TagModule, FormsModule],
+  imports: [TableModule, TagModule, CommonModule, ButtonModule, SelectModule, TagModule, FormsModule, RouterLink],
   templateUrl: './denuncias-list.component.html',
   styleUrl: './denuncias-list.component.css'
 })
@@ -35,12 +36,11 @@ export class DenunciasListComponent implements OnInit {
     ];
 
   }
-  
-  
+
+
   ngAfterViewInit() {
     this.denunciaService.findAll().subscribe(data => {
       this.denuncias = data;
-      console.log(data)
       this.cdr.detectChanges();
     });
   }
@@ -58,7 +58,7 @@ export class DenunciasListComponent implements OnInit {
 
   onImageError(event: Event) {
     const target = event.target as HTMLImageElement;
-    target.src = 'assets/images/image.png'; 
+    target.src = 'assets/images/image.png';
   }
 
   atenderDenuncia(id:number) {

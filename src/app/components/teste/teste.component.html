@@ -1,4 +1,6 @@
-<div class="card flex justify-center">
-    <p-toast />
-    <p-button (onClick)="show()" label="Show" />
+<div class="upload-container">
+  <h2>Enviar Arquivo</h2>
+
+  <input type="file" (change)="onFileSelected($event)">
+  <button (click)="onUpload()">Enviar</button>
 </div>

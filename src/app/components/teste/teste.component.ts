@@ -1,41 +1,45 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { Menu } from 'primeng/menu';
-import { AvatarModule } from 'primeng/avatar';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
-import { PasswordModule } from 'primeng/password';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
-import { ToastModule } from 'primeng/toast';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-interface City {
-    name: string;
-    code: string;
-}
 @Component({
   selector: 'app-teste',
-  imports: [ButtonModule, AvatarModule, FontAwesomeModule, PasswordModule, CommonModule,FormsModule,ToastModule],
   templateUrl: './teste.component.html',
-  styleUrl: './teste.component.css'
+  styleUrls: ['./teste.component.css']
 })
 export class TesteComponent implements OnInit {
-    private messageService = inject(MessageService)
-     ngOnInit(): void {
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Info',
-      detail: 'Message Content',
-      life: 3000
-    });
+  selectedFile: File | null = null;
 
-    // alert('teste')
+  constructor(private http: HttpClient, private toastService: ToastService) {}
+
+  ngOnInit(): void {
+    // Pode deixar o ngOnInit vazio ou usar para inicializações, mas sem erros
   }
 
-   show() {
-        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
+  // Função para capturar o arquivo selecionado
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  // Função para enviar o arquivo
+  onUpload(): void {
+    if (!this.selectedFile) {
+      alert("Por favor, selecione um arquivo.");
+      return;
     }
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile, this.selectedFile.name);
+
+    // Enviar o arquivo para a API
+    this.http.post(`http://localhost:8080/api/denuncias/image`, formData).subscribe({
+      next: (response) => {
+        console.log('Arquivo enviado com sucesso!', response);
+        this.toastService.add({severity: 'success', summary: 'Sucesso', detail: 'Imagem enviada com sucesso!'});
+      },
+      error: (err) => {
+        console.error('Erro ao enviar o arquivo', err);
+        this.toastService.add({severity: 'error', summary: 'Erro', detail: 'Falha ao enviar o arquivo.'});
+      }
+    });
+  }
 }

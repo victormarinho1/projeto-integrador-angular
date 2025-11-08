@@ -14,7 +14,7 @@
     <!-- Imagens -->
     <div>
       <label for="imagens" class="block text-sm font-medium text-gray-700">Imagens</label>
-      <input type="file" id="imagens" formControlName="imagens" multiple accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+      <input type="file" id="imagens" (change)="onFilesSelected($event)" multiple accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
                file:rounded-md file:border-0 file:text-sm file:font-semibold
                file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
     </div>
@@ -94,13 +94,13 @@
   </div>
 </form>
 
-<p-dialog 
-  header="Denúncia Enviada com Sucesso!" 
-  [(visible)]="modalVisible" 
+<p-dialog
+  header="Denúncia Enviada com Sucesso!"
+  [(visible)]="modalVisible"
   [modal]="true"
-  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
-  [style]="{ width: '50vw' }" 
-  [draggable]="false" 
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
   [resizable]="false">
 
   <div class="space-y-4 text-sm text-gray-800 leading-relaxed">
@@ -117,11 +117,11 @@
 
       <div class="flex items-center gap-2">
         <input #inputRef type="text" pInputText [(ngModel)]="protocolo" readonly class="w-full" />
-        <button 
-          pButton 
-          type="button" 
-          icon="pi pi-copy" 
-          (click)="copiarTexto(inputRef)" 
+        <button
+          pButton
+          type="button"
+          icon="pi pi-copy"
+          (click)="copiarTexto(inputRef)"
           label="Copiar"
           class="p-button-sm" ></button>
       </div>

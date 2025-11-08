@@ -16,16 +16,18 @@ import { Dialog } from 'primeng/dialog';
   templateUrl: './denuncias.component.html',
   styleUrl: './denuncias.component.css',
   providers:[MessageService]
-  
+
 })
 
-export class DenunciasComponent implements OnInit{  
+export class DenunciasComponent implements OnInit{
   private http = inject(HttpClient);
   private denunciaService = inject(DenunciaService);
   constructor(private messageService: MessageService) {}
-  
+
   modalVisible: boolean = false;
   protocolo:String = '';
+  files: File[] = [];
+
 
   denunciaForm = new FormGroup({
     descricao: new FormControl('', [Validators.required]),
@@ -42,6 +44,8 @@ export class DenunciasComponent implements OnInit{
   });
 
   onSubmit(){
+    this.denunciaService.uploadImage(this.files)?.subscribe();
+    this.denunciaForm.setControl('imagens', new FormControl(null));  // if imagens is an array
     this.denunciaService.create(this.denunciaForm.value).subscribe({
       next: denuncia => {
       this.protocolo = denuncia.body.protocolo;
@@ -56,14 +60,20 @@ export class DenunciasComponent implements OnInit{
     });
 
   }
-  
+
+
+  onFilesSelected(event: any): void {
+    this.files = Array.from(event.target.files);
+  }
+
+
   localizacaoAtual(){
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(
           (position) =>{
             if(position){
               let lat:number|null = position.coords.latitude;
-              let long:number|null = position.coords.longitude;        
+              let long:number|null = position.coords.longitude;
               const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json&accept-language=pt-BR`;
               this.http.get(url).subscribe((endereco:any)=>{
               this.denunciaForm.get('cidade')?.setValue(endereco.address.city);
@@ -78,7 +88,7 @@ export class DenunciasComponent implements OnInit{
         )
       }
     }
-    
+
     ngOnInit(): void {
     console.log(this.buscarSigla('São Paulo'))
 
