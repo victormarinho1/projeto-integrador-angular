@@ -9,6 +9,9 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 
+interface Imagem {
+  url: string;
+}
 @Component({
   selector: 'app-denuncias',
   standalone:true,
@@ -19,6 +22,7 @@ import { Dialog } from 'primeng/dialog';
 
 })
 
+
 export class DenunciasComponent implements OnInit{
   private http = inject(HttpClient);
   private denunciaService = inject(DenunciaService);
@@ -27,11 +31,11 @@ export class DenunciasComponent implements OnInit{
   modalVisible: boolean = false;
   protocolo:String = '';
   files: File[] = [];
-
+  imagens = []
 
   denunciaForm = new FormGroup({
     descricao: new FormControl('', [Validators.required]),
-    imagens: new FormControl(null),
+    imagens: new FormControl<Imagem[]>([] ),
     cep: new FormControl('', []),
     enderecoCompleto: new FormControl('', []),
     cidade: new FormControl('', []),
@@ -43,23 +47,48 @@ export class DenunciasComponent implements OnInit{
     prioridade: new FormControl('MEDIA', [Validators.required])
   });
 
-  onSubmit(){
-    this.denunciaService.uploadImage(this.files)?.subscribe();
-    this.denunciaForm.setControl('imagens', new FormControl(null));  // if imagens is an array
-    this.denunciaService.create(this.denunciaForm.value).subscribe({
-      next: denuncia => {
+  onSubmit() {
+  // Verifica se há arquivos
+  if (this.files && this.files.length > 0) {
+    // Cria um array de objetos com a chave 'url' para cada arquivo
+    const imagens = this.files.map(file => ({ url: file.name }));
+    this.denunciaForm.get('imagens')?.setValue(imagens);
+    this.denunciaService.uploadImage(this.files)?.subscribe({
+      next: (response) => {
+        console.log('Imagens enviadas com sucesso!');
+      },
+      error: (err) => {
+        console.error('Erro ao enviar as imagens', err);
+      }
+    });
+  } else {
+    // Caso não haja arquivos, envie um array vazio
+    this.denunciaForm.setControl('imagens', new FormControl([]));
+  }
+
+  // Cria a denúncia no backend
+  this.denunciaService.create(this.denunciaForm.value).subscribe({
+    next: denuncia => {
       this.protocolo = denuncia.body.protocolo;
       this.denunciaForm.reset();
       this.modalVisible = true;
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Sua denuncia foi cadastrada e numero de protocolo gerado é ' + this.protocolo, life: 3000 });
-      },
-      error: err =>{
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Não foi possivel cadastrar sua denuncia', life: 3000 });
-
-      }
-    });
-
-  }
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: 'Sua denúncia foi cadastrada e o número do protocolo gerado é ' + this.protocolo,
+        life: 3000
+      });
+    },
+    error: err => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Não foi possível cadastrar sua denúncia',
+        life: 3000
+      });
+    }
+  });
+}
 
 
   onFilesSelected(event: any): void {
@@ -90,7 +119,6 @@ export class DenunciasComponent implements OnInit{
     }
 
     ngOnInit(): void {
-    console.log(this.buscarSigla('São Paulo'))
 
     }
 

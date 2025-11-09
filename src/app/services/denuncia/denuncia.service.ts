@@ -44,7 +44,7 @@ uploadImage(files: File[] | File | null | undefined) {
 
   fileArray.forEach(file => {
     console.log(files)
-    formData.append('file', file, file.name);
+    formData.append('files', file, file.name);
   });
 
   return this.http.post(`${this.apiUrl}/denuncias/image`, formData);

@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class TesteComponent implements OnInit {
   selectedFile: File | null = null;
 
-  constructor(private http: HttpClient, private toastService: ToastService) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     // Pode deixar o ngOnInit vazio ou usar para inicializações, mas sem erros
@@ -28,17 +28,15 @@ export class TesteComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('file', this.selectedFile, this.selectedFile.name);
+    formData.append('files', this.selectedFile, this.selectedFile.name);
 
     // Enviar o arquivo para a API
     this.http.post(`http://localhost:8080/api/denuncias/image`, formData).subscribe({
       next: (response) => {
         console.log('Arquivo enviado com sucesso!', response);
-        this.toastService.add({severity: 'success', summary: 'Sucesso', detail: 'Imagem enviada com sucesso!'});
       },
       error: (err) => {
         console.error('Erro ao enviar o arquivo', err);
-        this.toastService.add({severity: 'error', summary: 'Erro', detail: 'Falha ao enviar o arquivo.'});
       }
     });
   }
