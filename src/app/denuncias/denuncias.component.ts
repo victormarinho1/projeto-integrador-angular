@@ -42,10 +42,10 @@ export class DenunciasComponent implements OnInit{
     estado: new FormControl('', []),
     rua: new FormControl('', []),
     bairro: new FormControl('', []),
-    latitude: new FormControl(null),
-    longitude: new FormControl(null),
-    prioridade: new FormControl('MEDIA', [Validators.required])
-  });
+    latitude: new FormControl<number | null>(null),
+    longitude: new FormControl<number | null>(null),
+    equipe_enviada: new FormControl(false),
+    });
 
   onSubmit() {
   // Verifica se há arquivos
@@ -111,6 +111,8 @@ export class DenunciasComponent implements OnInit{
               this.denunciaForm.get('enderecoCompleto')?.setValue(endereco.display_name);
               this.denunciaForm.get('rua')?.setValue(endereco.address.road);
               this.denunciaForm.get('bairro')?.setValue(endereco.address.suburb);
+              this.denunciaForm.get('latitude')?.setValue(lat);
+              this.denunciaForm.get('longitude')?.setValue(long);
             })
             }
           }

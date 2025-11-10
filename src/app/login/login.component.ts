@@ -24,8 +24,8 @@ export class LoginComponent {
 
   isMobile:any = false;
   loginForm = new FormGroup({
-    email: new FormControl('admin@example.com', [Validators.required, Validators.email]),
-    senha: new FormControl('admin', [Validators.required])
+    email: new FormControl('', [Validators.required, Validators.email]),
+    senha: new FormControl('', [Validators.required])
   });
 
  onSubmit() {

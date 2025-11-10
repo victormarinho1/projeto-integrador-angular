@@ -25,8 +25,7 @@ export class DenunciasListComponent implements OnInit {
   private denunciaService = inject(DenunciaService);
   private cdr = inject(ChangeDetectorRef);
   statuses: Status[] | undefined;
-  selectedStatus: String = "teste";
-
+  statuses2: Status[] | undefined;
 
   ngOnInit() {
     this.statuses = [
@@ -35,14 +34,23 @@ export class DenunciasListComponent implements OnInit {
       { name: 'Concluída', value: 'CONCLUIDA' }
     ];
 
+    this.statuses2 = [
+      { name: 'Baixa', value: 'BAIXA' },
+      { name: 'Média', value: 'MEDIA' },
+      { name: 'Alta', value: 'ALTA' },
+      { name: 'Sem análise', value: 'SEM_ANALIZE' },
+    ];
+
   }
 
 
   ngAfterViewInit() {
     this.denunciaService.findAll().subscribe(data => {
       this.denuncias = data;
+      console.log(this.denuncias)
       this.cdr.detectChanges();
     });
+
   }
   getSeverity(status: string) {
     switch (status) {
@@ -53,6 +61,18 @@ export class DenunciasListComponent implements OnInit {
       case 'CONCLUIDA':
         return 'secondary';
       default: return null;
+    }
+  }
+
+   getSeverity2(status: string) {
+    switch (status) {
+      case 'BAIXA':
+        return 'success';
+      case 'MEDIA':
+        return 'warn';
+      case 'ALTA':
+        return 'danger';
+      default: return 'info';
     }
   }
 

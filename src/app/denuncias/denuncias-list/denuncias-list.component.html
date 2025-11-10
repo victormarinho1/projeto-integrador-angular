@@ -1,4 +1,4 @@
-<h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 justify-center">
+<h2 class="text-2xl font-semibold text-primary-surface mb-6 border-b pb-3 justify-center">
     📋 Lista de Denúncias
 </h2>
 <p-table [value]="denuncias" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
@@ -9,6 +9,7 @@
             <th>Protocolo</th>
             <th>Imagem</th>
             <th>Cidade</th>
+            <th>Prioridade</th>
             <th>Situação</th>
             <th>Ações</th>
         </tr>
@@ -20,6 +21,20 @@
             </th>
             <th></th>
             <th></th>
+             <th>
+                <p-columnFilter field="prioridade" matchMode="equals">
+                    <ng-template #filter let-value let-filter="filterCallback">
+                        <p-select [options]="statuses2" optionLabel="name" optionValue="value"
+                            (onChange)="filter($event.value)" placeholder="Select One" [showClear]="true"
+                            style="min-width: 12rem">
+                            <ng-template let-option #item>
+                                <p-tag [severity]="getSeverity2(option.value)" [value]="option.name" />
+                            </ng-template>
+                        </p-select>
+
+                    </ng-template>
+                </p-columnFilter>
+            </th>
             <th>
                 <p-columnFilter field="status" matchMode="equals" [showMenu]="true">
                     <ng-template #filter let-value let-filter="filterCallback">
@@ -41,10 +56,18 @@
         <tr>
             <td>{{ denuncia.protocolo }}</td>
             <td>
-                <img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + (denuncia.imagens?.[0]?.url || '')"
+                <img [src]="'http://localhost:8080/images/' + (denuncia.imagens?.[0]?.url || '')"
                     [alt]="denuncia.name" class="w-24 rounded" (error)="onImageError($event)" />
             </td>
             <td>{{ denuncia.cidade }}</td>
+            <td>
+              @if(denuncia.prioridade == null){
+                <p-tag [severity]="getSeverity2(denuncia.prioridade)" value="Sem análise" />
+              }@else{
+                <p-tag [severity]="getSeverity2(denuncia.prioridade)" [value]="denuncia.prioridade" />
+
+              }
+            </td>
             <td>
                 <p-tag [severity]="getSeverity(denuncia.status)" [value]="denuncia.status" />
             </td>

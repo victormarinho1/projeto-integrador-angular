@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 // Importe seu serviço de denúncias
 // import { DenunciaService } from 'src/app/services/denuncia.service';
 
@@ -14,6 +14,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
 import { MessageModule } from 'primeng/message';
 import { DenunciaService } from '../services/denuncia/denuncia.service';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-atender-denuncia',
@@ -26,17 +27,26 @@ import { DenunciaService } from '../services/denuncia/denuncia.service';
     SelectButtonModule,
     TagModule,
     MessageModule,
-  ],
+    RouterLink,
+    DialogModule,
+    FormsModule
+],
   templateUrl: './atender-denuncia.component.html',
 })
 export class AtenderDenunciaComponent implements OnInit {
+  prioridadeSelecionada1 = 'MEDIA';
   denuncia: any; // Armazena os dados da denúncia
-  atendimentoForm: FormGroup;
   prioridadeOptions: any[];
+  equipeEnviada = false
   isLoading = true;
   denunciaService = inject(DenunciaService);
   cdr = inject(ChangeDetectorRef);
-
+  router = inject(Router);
+ modalVisivel: boolean = false;
+ modalVisivel2: boolean = false;
+  atendimentoForm = new FormGroup({
+    procedimentos: new FormControl('', [Validators.required])
+  });
 
   // Imagens de exemplo para a galeria (substitua pelo seu array de imagens)
   images: any[] = [
@@ -54,19 +64,37 @@ export class AtenderDenunciaComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private fb: FormBuilder // private denunciaService: DenunciaService
   ) {
     this.prioridadeOptions = [
-      { label: 'Baixa', value: 'BAIXA', icon: 'pi pi-arrow-down' },
-      { label: 'Média', value: 'MEDIA', icon: 'pi pi-equals' },
-      { label: 'Alta', value: 'ALTA', icon: 'pi pi-arrow-up' },
+      { label: 'Baixa', value: 'BAIXA'},
+      { label: 'Média', value: 'MEDIA'},
+      { label: 'Alta', value: 'ALTA' },
     ];
 
-    this.atendimentoForm = this.fb.group({
-      prioridade: ['MEDIA', Validators.required],
-      status: ['EM_ANDAMENTO'],
-    });
+
   }
+
+  fecharModal2() {
+    this.modalVisivel2 = false;
+    this.router.navigate(['/home'])
+  }
+
+   fecharModal() {
+    this.modalVisivel = false;
+  }
+
+  onSubmit() {
+  if (this.atendimentoForm.invalid) {
+    this.atendimentoForm.markAllAsTouched();
+    return;
+  }
+
+  this.finalizarDenuncia();
+  this.modalVisivel2 = true
+}
+
+
+
 
   ngOnInit(): void {
     // 1. Pega o 'id' da URL
@@ -75,43 +103,51 @@ export class AtenderDenunciaComponent implements OnInit {
       this.denunciaService.buscarDenunciaPorProtocolo(protocolo).subscribe(data => {
         this.denuncia = data;
         this.images = data.imagens;
+        this.prioridadeSelecionada1 = data.prioridade
         this.atendimentoForm.patchValue({
-          prioridade: data.prioridade,
-          status: data.status
-        });
+    procedimentos: this.denuncia.devolutiva, // Definindo o valor inicial do campo
+  });
+        this.equipeEnviada = this.denuncia.equipe_enviada;
         this.isLoading = false;
-        console.log(this.images )
         this.cdr.detectChanges();
       });
     }
   }
 
 
+  enviarEquipe() {
+    this.denunciaService.enviarEquipe(this.denuncia.id).subscribe(d =>{
+      this.modalVisivel = true;
+      this.denuncia.equipe_enviada = true;
+      this.cdr.detectChanges();
+    })
+
+
+  }
+
+  prioridadeSelecionada(event: any) {
+    const prioridadeSelecionada = event.value;
+    const protocolo:string | null = this.route.snapshot.paramMap.get('id');
+    this.denunciaService.definirPrioridade(protocolo ,prioridadeSelecionada).subscribe(d =>{
+      this.cdr.detectChanges();
+
+    })
+    this.denunciaService.atenderDenuncia(this.denuncia.id).subscribe();
+
+  }
+
  // CÓDIGO CORRIGIDO
 getSeverity(
   status: string
 ): "success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null | undefined { // <-- A MUDANÇA ESTÁ AQUI
-  if (status === 'NOVA') return 'info';
+  if (status === 'NOVA') return 'success';
   if (status === 'EM_ANDAMENTO') return 'warn';
-  if (status === 'CONCLUIDA') return 'success';
+  if (status === 'CONCLUIDA') return 'secondary';
   return 'secondary';
 }
 
-  salvarAlteracoes() {
-    if (this.atendimentoForm.invalid) return;
-
-    console.log('Salvando dados...', this.atendimentoForm.value);
-    // Lógica para enviar o formulário (ex: mudar status para 'EM_ANDAMENTO' e salvar prioridade)
-    // this.denunciaService.atualizarDenuncia(this.denuncia.id, this.atendimentoForm.value).subscribe(() => {
-    //   ...
-    // });
-  }
-
   finalizarDenuncia() {
-    console.log('Finalizando denúncia...');
-    // Lógica para marcar como "CONCLUIDA"
-    // this.denunciaService.atualizarDenuncia(this.denuncia.id, { status: 'CONCLUIDA' }).subscribe(() => {
-    //   this.router.navigate(['/conselheiro/dashboard']); // Volta para a lista
-    // });
+    this.denunciaService.finalizarAtendimento(this.denuncia.id, this.atendimentoForm.get('procedimentos')?.value).subscribe();
+    this.modalVisivel2 = true;
   }
 }

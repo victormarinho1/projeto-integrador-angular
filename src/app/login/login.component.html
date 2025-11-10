@@ -18,13 +18,11 @@ class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8"
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
         <input
-          value="admin@example.com"
           type="email"
           id="email"
           name="email"
           required
           class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="seuemail@exemplo.com"
           formControlName="email"
         />
       </div>
@@ -33,13 +31,11 @@ class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8"
       <div class="relative">
         <label for="senha" class="block text-sm font-medium text-gray-700">Senha</label>
         <input
-          value="admin"
           [type]="showPassword ? 'text' : 'password'"
           id="senha"
           name="senha"
           required
           class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10"
-          placeholder="********"
           formControlName="senha"
         />
 

@@ -26,7 +26,7 @@ export class DenunciaService {
     return this.http.patch(`${this.apiUrl}/denuncias/${id}/atender`,{});
   }
 
-  buscarDenunciaPorProtocolo(protocolo:string|null){
+  buscarDenunciaPorProtocolo(protocolo:string|null|undefined){
   return this.http.get<any>(`${this.apiUrl}/denuncias/protocolo/${protocolo}`);
   }
 
@@ -51,4 +51,18 @@ uploadImage(files: File[] | File | null | undefined) {
 }
 
 
+
+definirPrioridade(protocolo: string | null, prioridade: string) {
+  return this.http.patch(`${this.apiUrl}/denuncias/${protocolo}/prioridade`, { prioridade });
+}
+
+enviarEquipe( id: string) {
+  return this.http.get(`${this.apiUrl}/denuncias/${id}/enviar-equipe`,);
+}
+
+
+finalizarAtendimento(id: number, devolutiva:string | null | undefined){
+  return this.http.patch(`${this.apiUrl}/denuncias/${id}/finalizar-atendimento`, { devolutiva });
+
+}
 }
