@@ -45,7 +45,8 @@ export class AtenderDenunciaComponent implements OnInit {
  modalVisivel: boolean = false;
  modalVisivel2: boolean = false;
   atendimentoForm = new FormGroup({
-    procedimentos: new FormControl('', [Validators.required])
+    procedimentos: new FormControl('', [Validators.required]),
+    prioridade: new FormControl('')
   });
 
   // Imagens de exemplo para a galeria (substitua pelo seu array de imagens)
@@ -105,7 +106,8 @@ export class AtenderDenunciaComponent implements OnInit {
         this.images = data.imagens;
         this.prioridadeSelecionada1 = data.prioridade
         this.atendimentoForm.patchValue({
-    procedimentos: this.denuncia.devolutiva, // Definindo o valor inicial do campo
+    procedimentos: this.denuncia.devolutiva,
+    prioridade:this.denuncia.prioridade
   });
         this.equipeEnviada = this.denuncia.equipe_enviada;
         this.isLoading = false;
@@ -126,11 +128,14 @@ export class AtenderDenunciaComponent implements OnInit {
   }
 
   prioridadeSelecionada(event: any) {
+    console.log(event)
     const prioridadeSelecionada = event.value;
     const protocolo:string | null = this.route.snapshot.paramMap.get('id');
     this.denunciaService.definirPrioridade(protocolo ,prioridadeSelecionada).subscribe(d =>{
+    this.atendimentoForm.patchValue({
+    prioridade: prioridadeSelecionada
+  });
       this.cdr.detectChanges();
-
     })
     this.denunciaService.atenderDenuncia(this.denuncia.id).subscribe();
 

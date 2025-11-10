@@ -63,7 +63,7 @@
                   [allowEmpty]="false"
                   (onChange)="prioridadeSelecionada($event)"
                   [disabled]="denuncia.status === 'CONCLUIDA'"
-                  [(ngModel)]="prioridadeSelecionada1"
+                  formControlName="prioridade"
                 >
                   <ng-template let-item>
                     <div class="flex items-center gap-2">
