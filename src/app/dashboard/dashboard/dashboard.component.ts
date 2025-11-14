@@ -33,34 +33,38 @@ export class DashboardComponent implements OnInit {
   andamento = 0;
   concluidas = 0;
 
-ngOnInit() {
-  if (isPlatformBrowser(this.platformId)) {
-    // registra plugin customizado
-    Chart.register({
-      id: 'centerText',
-      afterDraw: (chart) => {
-        const { ctx, chartArea } = chart;
-        if (!chartArea) return;
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      // registra plugin customizado
+      Chart.register({
+        id: 'centerText',
+        afterDraw: (chart) => {
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return;
 
-        const centerX = (chartArea.left + chartArea.right) / 2;
-        const centerY = (chartArea.top + chartArea.bottom) / 2;
 
-        ctx.save();
-        ctx.font = 'bold 22px sans-serif';
-        ctx.fillStyle = '#333';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('150', centerX, centerY - 10); // valor fixo
-        ctx.font = '14px sans-serif';
-        ctx.fillStyle = '#666';
-        ctx.fillText('Total', centerX, centerY + 15);
-        ctx.restore();
-      }
-    });
+          const chartType = (chart.config as any).type;
+          if (chartType !== 'doughnut') return;
 
-    this.initChart();
+
+          const centerX = (chartArea.left + chartArea.right) / 2;
+          const centerY = (chartArea.top + chartArea.bottom) / 2;
+
+          ctx.save();
+          ctx.font = 'bold 22px sans-serif';
+          ctx.fillStyle = '#333';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('75%', centerX + 7, centerY);
+          ctx.font = '14px sans-serif';
+          ctx.fillStyle = '#666';
+          ctx.restore();
+        }
+      });
+
+      this.initChart();
+    }
   }
-}
 
 
   /** 🔹 Inicializa os gráficos */
@@ -84,9 +88,7 @@ ngOnInit() {
           {
             label: 'Denúncias',
             data: [d.total_novas, d.total_em_andamento, d.total_concluidas],
-            backgroundColor: ['#f87171', '#facc15', '#4ade80'],
-            borderColor: ['#dc2626', '#ca8a04', '#16a34a'],
-            borderWidth: 1,
+            backgroundColor: ['#f87171', '#facc15', '#4ade80']
           },
         ],
       };
@@ -98,7 +100,8 @@ ngOnInit() {
       datasets: [
         {
           label: 'Denúncias',
-          data: [540, 325, 702, 620, 400, 550, 670, 720, 830, 500, 650, 710],
+          data: [
+            540, 325, 702, 620, 400, 550, 670, 720, 830, 500, 650, 710],
           backgroundColor: Array(12).fill(primaryColor),
         },
       ],
@@ -110,30 +113,18 @@ ngOnInit() {
       plugins: {
         legend: { display: false },
         tooltip: { enabled: true },
-      },
+      }
     };
 
     // ⚙️ Opções Bar
     this.basicOptions2 = {
+      cutout: '70%',
       plugins: {
         legend: { display: false },
         tooltip: { enabled: true },
         centerText: {}
-
       },
-      scales: {
-        x: {
-          ticks: { color: textColorSecondary },
-          grid: { display: false },
-        },
-        y: {
-          ticks: { color: textColorSecondary },
-          grid: { color: 'rgba(0,0,0,0.05)' },
-        },
-      },
-      onHover: (event: any, chartElement: any) => {
-        event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
-      },
+     
     };
 
     this.cd.markForCheck();

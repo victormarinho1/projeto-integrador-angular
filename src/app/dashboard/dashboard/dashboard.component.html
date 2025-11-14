@@ -54,7 +54,7 @@
  <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
    <div class="col-span-3">
      <div class="bg-emphasis shadow-xl rounded-xs p-6 flex flex-col items-center col-span-3 w-full">
-         <h2 class="text-xl font-semibold mb-6 text-center">Quantidade de denúncias atendidas por usuário</h2>
+         <h2 class="text-xl font-semibold mb-6 text-center">Quantidade de concluidas por Mês</h2>
          <p-chart type="bar" [data]="basicData2"  [options]="basicOptions" [style]="{width: '100%'}" class="h-[25rem]"></p-chart>
        </div>
      <div class="bg-emphasis shadow-xl rounded-xs p-6 flex flex-col items-center col-span-3 w-full mt-8">
@@ -62,10 +62,7 @@
        <p-chart type="bar" [data]="basicData" [options]="basicOptions" [style]="{width: '100%'}" class="h-[15rem]"></p-chart>
      </div>
      
-     <div class="bg-emphasis shadow-xl rounded-xs p-6 flex flex-col items-center mt-8">
-       <h2 class="text-xl font-semibold mb-6 text-center">Quantidade de denúncias por Status</h2>
-       <p-chart type="doughnut" [data]="basicData" [options]="basicOptions" [style]="{width: '100%', maxWidth: '350px'}"></p-chart>
-      </div>
+    
    </div>
     
     <div class="bg-emphasis shadow-xl rounded-xs p-6 flex flex-col items-center">
